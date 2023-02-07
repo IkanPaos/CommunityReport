@@ -2,7 +2,6 @@
 include '../../PengaduanController.php';
 $index = $pengaduan->index();
 
-var_dump($result);
 ?>
 
 <!DOCTYPE html>
@@ -13,32 +12,56 @@ var_dump($result);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengaduan</title>
 </head>
+<style>
+    th {
+        font-family: Verdana;
+        font-size: 16px;
+    }
+    div.posisi {
+        position: relative;
+        left: 135px;
+    }
+</style>
 <body>
+    <center>
     <h1>List Pengaduan Masyarakat</h1>
-    <?php if ($index != null) : ?>
-        <? foreach ($index as $i) : ?>
-        <div class="card">
-            <p>Tanggal : </p><br>
-            <p><?= $i->tgl_pengaduan ?></p><br>
-            <p>NIK : </p><br>
-            <p><?= $i->nik ?></p><br>
-            <p>Laporan : </p><br>
-            <p><?= $i->isi_laporan ?></p><br>
-            <p>Foto : </p><br>
-            <p><?= $i->foto ?></p><br>
-            <p>Status : </p><br>
-            <?php if ($i->status == 0) : ?>
-                <p>Belum diproses</p>
-            <?php elseif ($i->status == 'proses') : ?>
-                <p>Sedang diproses</p>
-            <?php elseif ($i->status == 'selesai') : ?>
-                <p>Selsai diproses</p>
+    <table width='80%' border=1>
+        <tr>
+            <th>Tanggal</th>
+            <th>NIK</th>
+            <th>Laporan</th>
+            <th>Foto</th>
+            <th>Status</th>
+            <th>Aksi</th>
+        </tr>
+        <?php if (Count($index) > 0) : ?>
+        <?php foreach ($index as $data) : ?>
+            <?= "<tr>"; ?>
+            <?= "<td>" . $data->tgl_pengaduan . "</td>" ?>
+            <?= "<td>" . $data->nik . "</td>" ?>
+            <?= "<td>" . $data->isi_laporan . "</td>"?>
+            <?= "<td align='center'>" . $data->foto . "</td>"?>
+            <?= "<td align='center'>" ?>
+                <?php if ($data->status == 0) : ?>
+                    Belum diproses
+                    <?php elseif ($data->status == 'proses') : ?>
+                        Sedang diproses
+                        <?php elseif ($data->status == 'selesai') : ?>
+                            Selsai diproses
+                            <?= "</td>" ?> <br>
             <?php endif ; ?>
-            <p><?= $i->status ?></p><br>
-        </div>
-        <? endforeach; ?>
+            <?php echo "<td align='center'><a href='show.php?id=$data->id_pengaduan'>Cek</a> | <a href='edit.php?id=$data->id_pengaduan'>Edit</a> | <a href='delete.php?id=$data->id_pengaduan' >Hapus</a></td>"; ?>
+        <?php endforeach; ?>
     <?php else : ?>
         <h3>List Pengaduan Masih Kosong</h3>
     <?php endif; ?>
+    <?= "</tr>" ?>
+    </table>
+</center>
+<br>
+<div class="posisi">
+<button>Logout</button>
+</div>
 </body>
 </html>
+

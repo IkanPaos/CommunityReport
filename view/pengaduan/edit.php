@@ -1,20 +1,43 @@
+<?php
+
+include '../../PengaduanController.php';
+
+$id_pengaduan = $_GET['id'];
+$edit = $pengaduan->edit($id_pengaduan);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Pengaduan</title>
+    <title>Halaman Edit</title>
 </head>
 <body>
-    <form action="../../PengaduanController.php" method="POST">
-        <label for="nik">NIK</label>
-        <input type="text" name="nik" id="nik" required>
-        <label for="laporan">Laporan</label>
-        <input type="text" name="laporan" id="laporan" required>
-        <label for="foto">Foto</label>
-        <input type="text" name="foto" id="foto" required>
-        <input type="submit" name="edit" value="Ubah Laporan">
+    <center>
+    <h2>Mengubah Laporan</h2>
+    <p>ID Laporan <?= $edit->id_pengaduan ?></p>
+    </center>
+    <a href="index.php"><button>Kembali</button></a>
+    <center>
+    <hr>
+        <div class="card">
+        <form action="../../PengaduanController.php?id=<?=$edit->id_pengaduan?>" method="POST">
+            <td>NIK : </td><br>
+            <td><input type="text" name="nik" id="nik" value='<?= $edit->nik ?>'></td><br><br>
+            <td>Laporan : </td><br>
+            <td><input type="text" name="isi_laporan" id="isi_laporan" value="<?= $edit->isi_laporan ?>"></td><br><br>
+            <td>Keterangan : </td><br>
+            <td><textarea name="keterangan" id="keterangan"><?= $edit->keterangan ?></textarea></td><br><br>
+            <td>Foto : </td><br>
+            <td><img src="../img/<?=$edit->foto; ?>" width="100"/></td><br><br>
+            <td><input type="file" name="foto"></td>
+            <hr>
+        </center>
+        </div>
+        <input type="submit" name="update" value="Simpan">
     </form>
-</body>
+    </body>
 </html>
