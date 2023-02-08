@@ -27,13 +27,15 @@ $show = $pengaduan->show($id_pengaduan);
             <td>NIK : </td><br>
             <td><input type="text" name="nik" value='<?= $show->nik ?>' disabled></td><br><br>
             <td>Status : </td><br>
-            <td><input type="text" name="status" value='<?= $show->status ?>' disabled></td><br><br>
+            <td><input type="text" name="status" value='<?php if ($show->status == 0) {
+                echo "Menunggu";
+            } else { echo $show->status; } ?>' disabled></td><br><br>
             <td>Laporan : </td><br>
             <td><input type="text" name="laporan" value='<?= $show->isi_laporan ?>' disabled></td><br><br>
             <td>Keterangan : </td><br>
             <td><textarea name="keterangan" disabled> <?= $show->keterangan ?></textarea></td><br><br>
             <td>Foto : </td><br>
-            <td><img src="../img/<?=$show->foto; ?>" width="100"/></td><br><br>
+            <td><img src="../../img/<?=$show->foto; ?>" width="100"/></td><br><br>
             <hr>
         </center>
         </div>

@@ -20,6 +20,12 @@ class Koneksi {
             echo "Terjadi Kesalahan : " . $e->getMessage(); 
         }
     }
+
+    public function insert($data)
+    {
+	    $query = $this->prepare("INSERT INTO pengaduan (foto) VALUES('$data')");
+	    return $query->execute();
+    }
 }
 
 $db = new Koneksi();

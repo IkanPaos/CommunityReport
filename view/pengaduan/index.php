@@ -25,6 +25,11 @@ $index = $pengaduan->index();
 <body>
     <center>
     <h1>List Pengaduan Masyarakat</h1>
+    </center>
+    <div class="posisi">
+        <a href="create.php"><button>+ Laporan</button></a>
+    </div><br>
+    <center>
     <table width='80%' border=1>
         <tr>
             <th>Tanggal</th>
@@ -43,7 +48,7 @@ $index = $pengaduan->index();
             <?= "<td align='center'>" . $data->foto . "</td>"?>
             <?= "<td align='center'>" ?>
                 <?php if ($data->status == 0) : ?>
-                    Belum diproses
+                    Menunggu
                     <?php elseif ($data->status == 'proses') : ?>
                         Sedang diproses
                         <?php elseif ($data->status == 'selesai') : ?>

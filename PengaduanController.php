@@ -20,13 +20,19 @@ class PengaduanController extends Koneksi {
     
     public function store($request)
     {
-        $tgl        = $request['tgl'];
+        // $tgl        = $request['tgl'];
         $nik        = $request['nik'];
         $laporan    = $request['laporan'];
-        $foto       = $request['foto'];
+        $foto       = $_FILES['foto']['name'];
+        $tmp        = $_FILES['foto']['tmp_name'];
+        $keterangan = $request['keterangan'];
         $status     = 0;
 
-        $query = "INSERT INTO pengaduan (tgl_pengaduan, nik, isi_laporan, foto, status) VALUES (CURRENT_DATE(), '$nik', '$laporan', '$foto', '$status')";
+        $img = date('dmYHis').$foto;
+        $path = "img/".$img;
+        if (move_uploaded_file($tmp,$path)) {
+        
+        $query = "INSERT INTO pengaduan (tgl_pengaduan, nik, isi_laporan, keterangan, foto, status) VALUES (CURRENT_DATE(), '$nik', '$laporan', '$keterangan', '$img', '$status')";
         $store = $this->pdo->prepare($query);
         $store->execute();
 
@@ -34,6 +40,7 @@ class PengaduanController extends Koneksi {
             alert('Berhasil mengajukan pengaduan!')
             window.location.href='view/pengaduan/index.php'
             </script>";
+        }
     }
 
     public function show($id)
@@ -58,12 +65,19 @@ class PengaduanController extends Koneksi {
 
     public function update($request, $id)
     {
-        $nik    = $request['nik'];
+        // $nik    = $request['nik'];
         $isi    = $request['isi_laporan'];
         $keterangan    = $request['keterangan'];
-        $foto   = $request['foto'];
+        $foto   = $_FILES['foto']['name'];
+        $tmp   = $_FILES['foto']['tmp_name'];
 
-        $query = "UPDATE pengaduan SET nik = '$nik', isi_laporan = '$isi', keterangan = '$keterangan', foto = '$foto' WHERE id_pengaduan = $id";
+        $query = "SELECT foto FROM pengaduan WHERE id_pengaduan = $id";
+        $index = $this->pdo->prepare($query);
+        $index->execute();
+        $result = $index->fetch(PDO::FETCH_OBJ);
+
+        if (empty($foto)){
+        $query = "UPDATE pengaduan SET isi_laporan = '$isi', keterangan = '$keterangan' WHERE id_pengaduan = $id";
         $update = $this->pdo->prepare($query);
         $update->execute();
 
@@ -71,6 +85,22 @@ class PengaduanController extends Koneksi {
             alert('Berhasil mengubah pengaduan!')
             window.location.href='view/pengaduan/index.php'
             </script>";
+        } else {
+            $img = date('dmYHis').$foto;
+
+            $path="img/".$img;
+            if (move_uploaded_file($tmp,$path)) {
+                $query = "UPDATE pengaduan SET foto = '$img' WHERE id_pengaduan = $id";
+                $update = $this->pdo->prepare($query);
+                unlink("img/".$result->foto);
+                $update->execute();
+
+        echo "<script>
+            alert('Berhasil mengubah pengaduan!')
+            window.location.href='view/pengaduan/index.php'
+            </script>";
+            }
+        }
     }
 
     public function destroy($id)
@@ -84,6 +114,8 @@ class PengaduanController extends Koneksi {
             window.location.href='index.php'
             </script>";
     }
+
+
 }
 
 $pengaduan = new PengaduanController();

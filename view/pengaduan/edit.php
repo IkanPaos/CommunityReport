@@ -24,16 +24,14 @@ $edit = $pengaduan->edit($id_pengaduan);
     <center>
     <hr>
         <div class="card">
-        <form action="../../PengaduanController.php?id=<?=$edit->id_pengaduan?>" method="POST">
-            <td>NIK : </td><br>
-            <td><input type="text" name="nik" id="nik" value='<?= $edit->nik ?>'></td><br><br>
+        <form action="../../PengaduanController.php?id=<?=$edit->id_pengaduan?>" method="POST" ecntype="multipart/form-data">
             <td>Laporan : </td><br>
             <td><input type="text" name="isi_laporan" id="isi_laporan" value="<?= $edit->isi_laporan ?>"></td><br><br>
             <td>Keterangan : </td><br>
             <td><textarea name="keterangan" id="keterangan"><?= $edit->keterangan ?></textarea></td><br><br>
             <td>Foto : </td><br>
-            <td><img src="../img/<?=$edit->foto; ?>" width="100"/></td><br><br>
-            <td><input type="file" name="foto"></td>
+            <td><img src="../../img/<?=$edit->foto; ?>" width="100"/></td><br><br>
+            <td><input type="file" name="foto" id="foto"></td>
             <hr>
         </center>
         </div>
